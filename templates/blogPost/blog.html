@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+<!-- <link rel="stylesheet" href="../static/style.css"> -->
+
+{% block containerType %}blog-container{% endblock %}
+
+{% block content %}
+    <div class="blog-inner-container">
+    {% if request.user.is_staff %}
+        <a role="button" class="btn btn-outline-light postBackButton" href="{% url 'writePost' %}">Write new post</a>
+    {% endif %}
+    {% for BlogPost in object_list reversed%}
+        {% if forloop.first %}
+            <a class="p-3 mb-2 bg-secondary text-white clickable-blog-div" href="{% url 'post' BlogPost.id %}">
+                    <img alt="img" src="{{ BlogPost.image.url }}" width="100" height="100" style="margin-right:10px"> {{ BlogPost.title }}
+        {% else %}
+            <a class="p-3 mb-2 bg-secondary text-white clickable-blog-div" href="{% url 'post' BlogPost.id %}">
+                <img alt="img" src="{{ BlogPost.image.url }}" width="100" height="100" style="margin-right:10px"> {{ BlogPost.title }}
+        {% endif %}
+        <p class="blogDateP">{{ BlogPost.date }}</p>
+        </a> &nbsp
+    {% endfor %}
+    </div>
+{% endblock %}
+
+{% block userNavbar %}
+{% endblock %}
+
+{% block lognavbar %}
+{% endblock %}
+
+{% block oldContent %}
+    <!--<div class="p-3 mb-2 bg-dark text-light">
+                {{ BlogPost.content }}
+            </div>
+                {{ BlogPost.author.username }},
+                {{ BlogPost.date }}-->
+{% endblock %}

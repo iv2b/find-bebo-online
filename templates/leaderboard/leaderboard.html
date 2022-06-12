@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+<!-- <link rel="stylesheet" href="../static/style.css"> -->
+
+{% block containerType %}blog-container{% endblock %}
+
+{% block content %}
+    <div class="blog-inner-container">
+        {% if user.is_authenticated %}
+            {% if nearRank > 0 %}
+                <table class="table table-dark">
+                    <thead>
+                        <tr>
+                            <th scope="col">rank #</th>
+                            <th scope="col">name</th>
+                            <th scope="col">score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for s,r,a in nearScores %}
+                            {% if forloop.counter == nearRank %}
+                                <tr class="bg-primary">
+                            {% else %}
+                                <tr>
+                            {% endif %}
+                                <th scope="row">{{ r }}</th>
+                                <td><img alt="img" src="/media/avatars/{{ a }}.png" width="30" height="30" style="margin-right:10px">{{ s.user }}</td>
+                                <td>{{ s.rating|floatformat:"0" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div style="margin-bottom: 70px"></div>
+            {% endif %}
+        {% endif %}
+        <table class="table table-dark">
+            <thead>
+                <tr>
+                    <th scope="col">rank #</th>
+                    <th scope="col">name</th>
+                    <th scope="col">score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for s, a in scores %}
+                    {% if s.user.id == user.id %}
+                        <tr class="bg-primary">
+                    {% else %}
+                        <tr>
+                    {% endif %}
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td><img alt="img" src="/media/avatars/{{ a }}.png" width="30" height="30" style="margin-right:10px">{{ s.user }}</td>
+                        <td>{{ s.rating|floatformat:"0" }}</td>
+                    </tr>
+                    <!-- <p>#{{ forloop.counter }} | {{ s.user }} | {{ s.rating|floatformat:"0" }}</p> -->
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+
+{% block userNavbar %}
+{% endblock %}
+
+{% block lognavbar %}
+{% endblock %}
